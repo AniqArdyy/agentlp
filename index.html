@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cara Run BEN AGENT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --hl:#c8f31d; --hl-soft:#f4fdc9; --hl-deep:#8fb600;
+  --ink:#1c2614; --mute:#55634a; --line:#e4ecd6; --bg:#fff;
+  --code:#161c12; --code-ink:#e8f5c8;
+  --head:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--body);-webkit-text-size-adjust:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--hl-deep);outline-offset:2px;border-radius:6px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1120px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:18px}
+.brand{font:800 18px var(--head);text-decoration:none;white-space:nowrap}
+.brand i{font-style:normal;background:var(--hl);padding:1px 7px;border-radius:6px;margin-right:6px}
+.progress{position:absolute;left:0;bottom:-1px;height:3px;width:0;background:var(--hl-deep)}
+nav.tabs{position:relative;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs a{padding:6px 11px;border-radius:999px;font-size:14px;font-weight:600;color:var(--mute);text-decoration:none;white-space:nowrap}
+nav.tabs a:hover{background:var(--hl-soft);color:var(--ink)}
+nav.tabs a.on{background:var(--hl);color:var(--ink)}
+
+/* hero */
+.hero{max-width:800px;margin:0 auto;padding:64px 20px 40px}
+.hero h1{font:800 clamp(34px,6.4vw,68px)/1.04 var(--head);letter-spacing:-.025em;margin:0 0 20px;max-width:15em}
+.hero h1 span{background:linear-gradient(transparent 58%,var(--hl) 58%);padding:0 .08em}
+.hero p{font-size:clamp(17px,2.2vw,20px);color:var(--mute);max-width:36em;margin:0 0 26px}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{background:var(--hl-soft);border:1px solid var(--line);padding:6px 14px;border-radius:999px;font-weight:600;font-size:14px}
+.cta{display:inline-block;margin-top:28px;background:var(--ink);color:#fff;text-decoration:none;font-weight:600;padding:13px 24px;border-radius:12px}
+.cta:hover{background:#2b3a1f}
+
+/* layout */
+main{max-width:800px;margin:0 auto;padding:0 20px 80px}
+section{padding:44px 0 8px;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0}
+h2{font:800 clamp(26px,4vw,36px)/1.15 var(--head);letter-spacing:-.015em;margin:0 0 12px;display:flex;gap:14px;align-items:center}
+h2 .n{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--hl);font-size:20px}
+h2 .t{background:linear-gradient(transparent 62%,var(--hl-soft) 62%)}
+h3{font:700 19px var(--head);margin:28px 0 8px}
+p{margin:0 0 14px}
+.lead{color:var(--mute)}
+ul,ol{padding-left:22px;margin:0 0 16px}
+li{margin:4px 0}
+li::marker{color:var(--hl-deep);font-weight:700}
+code.i{font:500 .9em var(--mono);background:var(--hl-soft);border:1px solid var(--line);padding:1px 6px;border-radius:6px;word-break:break-word}
+
+/* code */
+.code{position:relative;margin:14px 0 20px;border-radius:14px;background:var(--code);border-left:5px solid var(--hl)}
+.code .lab{display:flex;justify-content:space-between;align-items:center;padding:8px 10px 0 16px;color:#9db37a;font:600 12px var(--body)}
+.code pre{margin:0;padding:10px 16px 16px;overflow-x:auto;color:var(--code-ink);font:400 14px/1.65 var(--mono);-webkit-overflow-scrolling:touch}
+.copy{border:0;cursor:pointer;background:var(--hl);color:var(--ink);font:700 12px var(--body);padding:6px 12px;border-radius:8px}
+.copy:hover{background:#d8ff4a}
+.copy.ok{background:#fff}
+
+/* callouts */
+.note{border-left:5px solid var(--hl-deep);background:var(--hl-soft);padding:14px 18px;border-radius:0 12px 12px 0;margin:18px 0}
+.note b{display:block;margin-bottom:2px}
+.warn{border-left-color:#e0a100;background:#fff7e0}
+.note p:last-child{margin:0}
+
+/* table */
+.tw{overflow-x:auto;margin:14px 0 20px;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--hl-soft);font-weight:700}
+tr:last-child td{border-bottom:0}
+
+/* check list */
+.need{list-style:none;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.need li{margin:0;padding:12px 14px 12px 44px;border:1px solid var(--line);border-radius:12px;position:relative;font-weight:500}
+.need li::before{content:"";position:absolute;left:14px;top:15px;width:20px;height:20px;border-radius:6px;background:var(--hl) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3.2L15 6.8' fill='none' stroke='%231c2614' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+
+/* troubleshooting */
+details{border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fff}
+summary{cursor:pointer;padding:14px 18px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:800 20px/1 var(--head);background:var(--hl);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none}
+details[open] summary::after{content:"–"}
+details[open]{border-color:var(--hl-deep)}
+details .b{padding:0 18px 14px}
+
+footer{border-top:1px solid var(--line);text-align:center;color:var(--mute);font-size:14px;padding:28px 20px}
+.back{position:fixed;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--hl);font:800 18px var(--head);cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.15);opacity:0;pointer-events:none;transition:opacity .2s}
+.back.show{opacity:1;pointer-events:auto}
+@media (max-width:560px){body{font-size:16px}.hero{padding-top:40px}h2 .n{width:38px;height:38px;font-size:17px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.back{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#atas"><i>BEN</i>AGENT</a>
+    <nav class="tabs" id="tabs" aria-label="Daftar langkah">
+      <a href="#siapkan">Siapkan</a><a href="#vps">VPS</a><a href="#cloudflared">Cloudflared</a>
+      <a href="#install">Install</a><a href="#env">.env</a><a href="#script">Script</a>
+      <a href="#jalan">Jalankan</a><a href="#restart">Restart</a><a href="#masalah">Masalah</a>
+    </nav>
+  </div>
+  <div class="progress" id="bar"></div>
+</header>
+
+<div class="hero" id="atas">
+  <h1>Cara Run <span>BEN AGENT</span></h1>
+  <p>Panduan lewat Termius, dari VPS kosong sampai tombol Mini App muncul di Telegram. Tanpa domain. Link boleh berganti setiap restart.</p>
+  <div class="pills">
+    <span class="pill">Tanpa domain</span><span class="pill">Gratis dengan Cloudflare Quick Tunnel</span><span class="pill">Salin-tempel perintah</span>
+  </div>
+  <a class="cta" href="#siapkan">Mulai dari langkah 1</a>
+</div>
+
+<main>
+
+<section id="siapkan">
+  <h2><span class="n">1</span><span class="t">Siapkan bahan</span></h2>
+  <p class="lead">Kumpulkan semuanya dulu supaya nanti tinggal menempel.</p>
+  <ul class="need">
+    <li>VPS Ubuntu yang bisa dibuka di Termius</li>
+    <li>Akun Telegram</li>
+    <li>Wallet Solana <b>baru</b> dengan saldo kecil</li>
+    <li>RPC Helius (helius.dev, gratis)</li>
+    <li>API key OpenRouter (openrouter.ai)</li>
+    <li>File <code class="i">agentai.zip</code></li>
+  </ul>
+  <h3>Buat bot Telegram sebagai wadah Mini App</h3>
+  <ol>
+    <li>Di Telegram buka <b>@BotFather</b>, kirim <code class="i">/newbot</code>, isi nama dan username (harus berakhiran <code class="i">bot</code>).</li>
+    <li>Salin <b>token</b> yang diberikan (bentuk <code class="i">123456789:AAH...</code>). Rahasiakan.</li>
+    <li>Buka <b>@userinfobot</b>, kirim pesan apa saja, lalu salin angka <b>Id</b> kamu.</li>
+  </ol>
+  <div class="note"><b>Simpan di catatan</b><p>Token bot dan ID Telegram dipakai di langkah 5.</p></div>
+</section>
+
+<section id="vps">
+  <h2><span class="n">2</span><span class="t">Siapkan VPS</span></h2>
+  <p class="lead">Sambungkan ke VPS lewat Termius, lalu jalankan satu per satu.</p>
+  <div class="code"><div class="lab">Terminal</div><pre><code>sudo apt update &amp;&amp; sudo apt install -y unzip curl
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt install -y nodejs
+sudo npm i -g pm2</code></pre></div>
+  <p>Cek hasilnya: <code class="i">node -v</code> harus menampilkan <code class="i">v22.x</code>.</p>
+</section>
+
+<section id="cloudflared">
+  <h2><span class="n">3</span><span class="t">Install cloudflared</span></h2>
+  <p class="lead">Alat ini membuat alamat HTTPS publik gratis. Telegram hanya mau membuka Mini App lewat HTTPS.</p>
+  <p>Cek jenis VPS dulu:</p>
+  <div class="code"><div class="lab">Terminal</div><pre><code>uname -m</code></pre></div>
+  <p>Jika hasilnya <code class="i">x86_64</code>:</p>
+  <div class="code"><div class="lab">x86_64 (amd64)</div><pre><code>curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o cf.deb
+sudo dpkg -i cf.deb</code></pre></div>
+  <p>Jika hasilnya <code class="i">aarch64</code>:</p>
+  <div class="code"><div class="lab">aarch64 (arm64)</div><pre><code>curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64.deb -o cf.deb
+sudo dpkg -i cf.deb</code></pre></div>
+</section>
+
+<section id="install">
+  <h2><span class="n">4</span><span class="t">Upload dan install project</span></h2>
+  <ol>
+    <li>Di Termius buka tab <b>SFTP</b>, lalu upload <code class="i">agentai.zip</code> ke folder home.</li>
+    <li>Kembali ke terminal dan jalankan:</li>
+  </ol>
+  <div class="code"><div class="lab">Terminal</div><pre><code>cd ~ &amp;&amp; unzip agentai.zip
+cd agentai/agentai
+rm -rf node_modules
+npm install</code></pre></div>
+  <div class="note"><b>Pastikan foldernya benar</b><p>Folder yang benar adalah yang berisi file <code class="i">index.js</code>. Folder <code class="i">node_modules</code> dihapus karena bawaan zip dibuat di komputer lain.</p></div>
+</section>
+
+<section id="env">
+  <h2><span class="n">5</span><span class="t">Isi file .env</span></h2>
+  <div class="code"><div class="lab">Terminal</div><pre><code>nano .env</code></pre></div>
+  <p>Semua nilai di file itu masih placeholder. Ganti yang berikut:</p>
+  <div class="tw"><table>
+    <tr><th>Baris</th><th>Isi dengan</th></tr>
+    <tr><td><code class="i">WALLET_PRIVATE_KEY</code></td><td>Private key wallet <b>baru</b> (saldo kecil saja)</td></tr>
+    <tr><td><code class="i">RPC_URL</code></td><td><code class="i">https://mainnet.helius-rpc.com/?api-key=KEYMU</code></td></tr>
+    <tr><td><code class="i">HELIUS_API_KEY</code></td><td>Key Helius yang sama</td></tr>
+    <tr><td><code class="i">LLM_API_KEY</code></td><td>Key OpenRouter (<code class="i">sk-or-...</code>)</td></tr>
+    <tr><td><code class="i">TELEGRAM_BOT_TOKEN</code></td><td>Token dari BotFather</td></tr>
+    <tr><td><code class="i">TELEGRAM_ALLOWED_USER_IDS</code></td><td>ID Telegram kamu (angka)</td></tr>
+  </table></div>
+  <p>Biarkan apa adanya: <code class="i">MINIAPP_URL</code> (diisi otomatis oleh script), <code class="i">MINIAPP_PORT=8787</code>, <code class="i">MINIAPP_HOST=127.0.0.1</code>, <code class="i">DRY_RUN=true</code>.</p>
+  <p>Simpan dengan <b>Ctrl+O</b>, tekan Enter, lalu keluar dengan <b>Ctrl+X</b>.</p>
+  <div class="note warn"><b>Jaga kerahasiaan</b><p>Jangan bagikan isi <code class="i">.env</code> ke siapa pun, termasuk lewat screenshot.</p></div>
+</section>
+
+<section id="script">
+  <h2><span class="n">6</span><span class="t">Buat script satu perintah</span></h2>
+  <p class="lead">Script ini membuat link baru, memasukkannya ke <code class="i">.env</code>, lalu menjalankan agent. Tombol di Telegram ikut diperbarui otomatis.</p>
+  <p>Tempel semuanya sekaligus:</p>
+  <div class="code"><div class="lab">Terminal</div><pre><code>cat &gt; mulai.sh &lt;&lt; 'EOF'
+#!/bin/bash
+cd "$(dirname "$0")"
+pm2 delete tunnel 2&gt;/dev/null
+rm -f /tmp/tunnel.log
+pm2 start cloudflared --name tunnel --interpreter none -o /tmp/tunnel.log -e /tmp/tunnel.log -- tunnel --no-autoupdate --url http://127.0.0.1:8787 &gt;/dev/null
+for i in $(seq 1 30); do
+  URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/tunnel.log | grep -v '^https://api\.' | head -1)
+  [ -n "$URL" ] &amp;&amp; break
+  sleep 1
+done
+[ -z "$URL" ] &amp;&amp; { echo "Link belum ketemu, coba lagi"; exit 1; }
+sed -i "s|^MINIAPP_URL=.*|MINIAPP_URL=$URL|" .env
+pm2 delete agentlp 2&gt;/dev/null
+pm2 start ecosystem.config.cjs
+echo ""
+echo "Link Mini App: $URL"
+EOF
+chmod +x mulai.sh</code></pre></div>
+</section>
+
+<section id="jalan">
+  <h2><span class="n">7</span><span class="t">Jalankan dan buka di Telegram</span></h2>
+  <div class="code"><div class="lab">Terminal</div><pre><code>./mulai.sh</code></pre></div>
+  <p>Tunggu sekitar 10 detik sampai muncul <code class="i">Link Mini App: https://...trycloudflare.com</code>. Lalu:</p>
+  <ol>
+    <li>Buka <b>chat pribadi</b> dengan botmu di Telegram dan kirim <code class="i">/start</code>.</li>
+    <li>Tap tombol <b>Kantor LP</b> di kiri kolom ketik, atau tombol <b>Open Miniapp</b> di pesan start.</li>
+    <li>Jika tombol belum muncul, tutup total aplikasi Telegram lalu buka lagi.</li>
+  </ol>
+  <h3>Cek bahwa semuanya sehat</h3>
+  <div class="code"><div class="lab">Terminal</div><pre><code>pm2 status
+pm2 logs agentlp --lines 50
+curl http://127.0.0.1:8787/healthz</code></pre></div>
+  <ul>
+    <li><code class="i">agentlp</code> dan <code class="i">tunnel</code> harus berstatus <b>online</b>.</li>
+    <li>Log harus memuat <code class="i">Mini App jalan di 127.0.0.1:8787</code>.</li>
+    <li><code class="i">healthz</code> harus membalas <code class="i">ok</code>.</li>
+  </ul>
+</section>
+
+<section id="restart">
+  <h2><span class="n">8</span><span class="t">Setelah restart dan pindah ke LIVE</span></h2>
+  <h3>Setiap VPS restart</h3>
+  <div class="code"><div class="lab">Terminal</div><pre><code>cd ~/agentai/agentai &amp;&amp; ./mulai.sh</code></pre></div>
+  <p>Link baru dibuat dan tombol di Telegram otomatis ikut berubah.</p>
+  <div class="note warn"><b>Jangan pakai pm2 save atau pm2 startup</b><p>Keduanya menyimpan link lama yang sudah tidak berlaku.</p></div>
+  <h3>Pindah ke uang sungguhan</h3>
+  <p>Biarkan <code class="i">DRY_RUN=true</code> beberapa hari sampai keputusan di Mini App masuk akal. Lalu jalankan:</p>
+  <div class="code"><div class="lab">Terminal</div><pre><code>nano .env      # ubah DRY_RUN=true menjadi DRY_RUN=false
+./mulai.sh</code></pre></div>
+  <h3>Kendali manual</h3>
+  <p>Mini App hanya untuk melihat data. Aksi manual lewat Termius:</p>
+  <div class="code"><div class="lab">Terminal</div><pre><code>node cli.js positions
+node cli.js balance
+node cli.js close --position ALAMAT_POSISI</code></pre></div>
+</section>
+
+<section id="masalah">
+  <h2><span class="t">Masalah umum</span></h2>
+  <details><summary>Link tidak muncul setelah ./mulai.sh</summary><div class="b"><p>Lihat log tunnel, lalu jalankan ulang script.</p><div class="code"><pre><code>pm2 logs tunnel --lines 30
+./mulai.sh</code></pre></div></div></details>
+  <details><summary>Mini App putih atau error 502</summary><div class="b"><p>Cek <code class="i">pm2 status</code>. Jika <code class="i">agentlp</code> error, baca penyebabnya dengan <code class="i">pm2 logs agentlp</code>. Biasanya ada isi <code class="i">.env</code> yang belum benar.</p></div></details>
+  <details><summary>Muncul "Akses ditolak"</summary><div class="b"><p><code class="i">TELEGRAM_ALLOWED_USER_IDS</code> salah, atau bot yang dibuka berbeda dengan token di <code class="i">.env</code>. Samakan keduanya lalu jalankan <code class="i">./mulai.sh</code>.</p></div></details>
+  <details><summary>Muncul EADDRINUSE di log</summary><div class="b"><p>Ada proses ganda di port 8787. Bersihkan lalu mulai ulang.</p><div class="code"><pre><code>pm2 delete all
+./mulai.sh</code></pre></div></div></details>
+  <details><summary>Tombol Kantor LP tidak muncul</summary><div class="b"><p>Pastikan kamu membuka <b>chat pribadi</b> (bukan grup), kirim <code class="i">/start</code>, lalu tutup total dan buka lagi aplikasi Telegram.</p></div></details>
+  <details><summary>Mini App terbuka dari browser tapi minta "Buka lewat Telegram"</summary><div class="b"><p>Mini App hanya bisa dibuka lewat tombol di bot Telegram, bukan dari browser biasa.</p></div></details>
+</section>
+
+</main>
+
+<footer>Wallet khusus bot dengan saldo kecil, dan jangan pernah membagikan private key atau token bot.</footer>
+<button class="back" id="back" aria-label="Kembali ke atas">↑</button>
+
+<script>
+// tombol salin pada setiap blok kode
+document.querySelectorAll('.code').forEach(function(box){
+  var b=document.createElement('button');
+  b.className='copy';b.type='button';b.textContent='Salin';
+  var lab=box.querySelector('.lab');
+  if(!lab){lab=document.createElement('div');lab.className='lab';box.prepend(lab)}
+  lab.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=box.querySelector('code').textContent;
+    var done=function(){b.textContent='Tersalin';b.classList.add('ok');setTimeout(function(){b.textContent='Salin';b.classList.remove('ok')},1600)};
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done)}
+    else{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();done()}
+  });
+});
+// penanda langkah aktif + bar progres + tombol ke atas
+var links=[].slice.call(document.querySelectorAll('#tabs a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+var bar=document.getElementById('bar'),back=document.getElementById('back');
+function onScroll(){
+  var y=window.scrollY,h=document.documentElement.scrollHeight-innerHeight;
+  bar.style.width=(h>0?y/h*100:0)+'%';
+  back.classList.toggle('show',y>600);
+  var cur=0;secs.forEach(function(s,i){if(s.getBoundingClientRect().top<140)cur=i});
+  links.forEach(function(a,i){
+    var on=i===cur&&y>300;a.classList.toggle('on',on);
+    if(on&&!a._s){a._s=1;var nv=a.parentNode;nv.scrollLeft=a.offsetLeft-(nv.clientWidth-a.offsetWidth)/2}else if(!on){a._s=0}
+  });
+  if(y<=300)document.getElementById('tabs').scrollLeft=0;
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+back.addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'})});
+</script>
+</body>
+</html>
